@@ -5,7 +5,7 @@ interface NotFoundPageProps {}
 
 const NotFoundPage: FC<NotFoundPageProps> = () => (
   <div className="NotFoundPage" data-testid="NotFoundPage">
-    404
+    NotFoundPage Component
   </div>
 );
 

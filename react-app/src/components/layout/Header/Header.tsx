@@ -20,7 +20,7 @@ const NavBar: FC<NavBarProps> = () => (
               <Nav.Link>Start</Nav.Link>
             </LinkContainer>
             <NavDropdown title="Vergleiche" id="basic-nav-dropdown">
-              <LinkContainer to="/comparesets">
+              <LinkContainer to="/comparison">
                 <NavDropdown.Item>Übersicht</NavDropdown.Item>
               </LinkContainer>
               {/* <NavDropdown.Divider /> */}

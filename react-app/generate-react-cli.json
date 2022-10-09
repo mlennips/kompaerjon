@@ -8,18 +8,11 @@
       "path": "src/components",
       "withStyle": true,
       "withTest": true,
-      "withStory": false,
+      "withStory": true,
       "withLazy": false
     },
     "page": {
-      "path": "src/views",
-      "withLazy": true,
-      "withStory": false,
-      "withStyle": true,
-      "withTest": true
-    },
-    "layout": {
-      "path": "src/components/layout",
+      "path": "src/pages",
       "withLazy": false,
       "withStory": false,
       "withStyle": true,
