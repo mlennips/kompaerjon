@@ -1,13 +1,17 @@
 import React, { FC } from 'react';
-import { Card, CardGroup, Col, Container, Row, Stack } from 'react-bootstrap';
+import { Card, Col, Container, Row } from 'react-bootstrap';
+import { useParams } from "react-router-dom";
 
 import ComparisonList from '../../features/comparison/components/ComparisonList/ComparisonList';
 import './HomePage.scss';
 
 interface HomePageProps { }
 
-const HomePage: FC<HomePageProps> = () => (
-  <div className="HomePage" data-testid="HomePage">
+const HomePage: FC<HomePageProps> = () => {
+  let params = useParams();
+  let userId = params.userId;
+
+  return <div className="HomePage" data-testid="HomePage">
     <Container>
       <Row className="py-5">
         <Col>
@@ -89,12 +93,12 @@ const HomePage: FC<HomePageProps> = () => (
           </Card>
         </Col>
       </Row>
-      <Row className="py-5">
+      {userId && <Row className="py-5">
         <h4>Deine Vergleiche</h4>
         <ComparisonList />
-      </Row>
+      </Row>} 
     </Container>
   </div>
-);
+};
 
 export default HomePage;

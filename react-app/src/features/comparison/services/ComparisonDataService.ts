@@ -1,8 +1,9 @@
 import http from "../../../utils/helpers/http-common";
 import { IComparison } from "../types";
+import './_mocks_/comparison';
 
 const getAll = (userId: string) => {
-  return http.get<Array<IComparison>>(`/users/${userId}/comparisons`);
+  return http.get<IComparison[]>(`/users/${userId}/comparisons`);
 };
 
 const get = (userId: string, id: string) => {
@@ -25,7 +26,7 @@ const removeAll = (userId: string) => {
   return http.delete<any>(`/users/${userId}/comparisons`);
 };
 
-const ComparisonService = {
+const ComparisonDataService = {
   getAll,
   get,
   create,
@@ -34,4 +35,4 @@ const ComparisonService = {
   removeAll
 };
 
-export default ComparisonService;
+export default ComparisonDataService;
