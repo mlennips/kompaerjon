@@ -1,9 +1,11 @@
+from urllib import response
 from django.shortcuts import render
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
 from backend.api.models import Comparison, ComparisonEntry
 from backend.api.serializers import ComparisonEntrySerializer, ComparisonSerializer, UserSerializer
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """

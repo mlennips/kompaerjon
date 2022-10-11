@@ -21,9 +21,10 @@ from rest_framework import routers
 from backend.api import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
+router.register('users', views.UserViewSet)
 # router.register(r'groups', views.GroupViewSet)
-router.register(r'comparisons', views.ComparisonViewSet)
+router.register('comparisons', views.ComparisonViewSet)
+router.register('comparisons/<int:comparison_id>/entries/', views.ComparisonEntryViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

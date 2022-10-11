@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 class Comparison(models.Model):
     id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created = models.DateField()
-    updated = models.DateField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField(auto_now = True, blank = True)
     name = models.CharField(max_length=128)
     description = models.TextField()
     searchScheme = models.TextField(max_length=128)
@@ -15,8 +15,8 @@ class Comparison(models.Model):
 class ComparisonShare(models.Model):
     id = models.BigAutoField(primary_key=True)
     comparison =  models.ForeignKey(Comparison, on_delete=models.CASCADE)
-    created = models.DateField()
-    updated = models.DateField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField(auto_now = True, blank = True)
     lastAccess = models.DateField()
     validUntil = models.DateField()
     name = models.CharField(max_length=128)
@@ -24,8 +24,8 @@ class ComparisonShare(models.Model):
 class ComparisonAttribute(models.Model):
     id = models.BigAutoField(primary_key=True),
     comparison =  models.ForeignKey(Comparison, on_delete=models.CASCADE)
-    created = models.DateField()
-    updated = models.DateField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField(auto_now = True, blank = True)
     key = models.CharField(max_length=128)
     name = models.CharField(max_length=128)
     searchWords = models.TextField()
@@ -34,8 +34,8 @@ class ComparisonAttribute(models.Model):
 class ComparisonEntry(models.Model):
     id = models.BigAutoField(primary_key=True),
     comparison =  models.ForeignKey(Comparison, on_delete=models.CASCADE)
-    created = models.DateField()
-    updated = models.DateField()
+    created = models.DateTimeField()
+    updated = models.DateTimeField(auto_now = True, blank = True)
     name = models.CharField(max_length=128)
     comment = models.TextField()
     url = models.URLField()
