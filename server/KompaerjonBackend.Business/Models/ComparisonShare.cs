@@ -1,6 +1,6 @@
-namespace KompaerjonApi.Models
+namespace KompaerjonBackend.Business.Models
 {
-    public class ComparisonEntry
+    public class ComparisonShare
     {
         public Guid Id { get; set; }
 
@@ -12,12 +12,8 @@ namespace KompaerjonApi.Models
 
         public string Name { get; set; }
 
-        public string Comment { get; set; }
+        public DateTime LastAccess { get; set; }
 
-        public string Url { get; set; }
-
-        public decimal Price { get; set; }
-
-        public int RatingPoints { get; set; }
+        public DateOnly Expires { get; set; }
     }
 }

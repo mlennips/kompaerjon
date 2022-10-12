@@ -1,4 +1,4 @@
-namespace KompaerjonApi.Models
+namespace KompaerjonBackend.Business.Models
 {
     public class ComparisonAttribute
     {

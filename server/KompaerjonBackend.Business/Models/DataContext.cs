@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 
-namespace KompaerjonApi.Models
+namespace KompaerjonBackend.Business.Models
 {
     public class DataContext : DbContext
     {
@@ -10,6 +10,7 @@ namespace KompaerjonApi.Models
         {
         }
 
+        public DbSet<User> Users { get; set; } = null!;
         public DbSet<Comparison> Comparisons { get; set; } = null!;
         public DbSet<ComparisonAttribute> ComparisonAttributes { get; set; } = null!;
         public DbSet<ComparisonEntry> ComparisonEntries { get; set; } = null!;
