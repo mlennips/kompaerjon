@@ -13,7 +13,7 @@ const HomePage: FC<HomePageProps> = () => {
   let params = useParams();
   let navigate = useNavigate();
 
-  let userId = AuthService.checkLogin() ? params.userId : null;
+  let userId = AuthService.checkLogin() && params.userId ? params.userId : null;
   if (!userId) {
     userId = AuthService.checkLogin() ? AuthService.getUserId() : null;
     if (userId) {

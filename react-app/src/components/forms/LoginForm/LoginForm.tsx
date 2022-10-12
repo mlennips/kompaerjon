@@ -1,18 +1,23 @@
 import React, { FC } from 'react';
 import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 import AuthService from '../../../services/AuthService';
 import './LoginForm.scss';
 
 interface LoginFormProps { }
 
 const LoginForm: FC<LoginFormProps> = () => {
+  let navigate = useNavigate();
 
   const handleLogin = (event: any) => {
     // Prevent page reload
     event.preventDefault();
     var { email, password } = document.forms[0];
-    AuthService.login(email.value, password.value);
+    AuthService.login(email.value, password.value).then(value => {
+      // warten auf token 
+      navigate('/users/' + value.userId);
+    });
   };
 
   return <>

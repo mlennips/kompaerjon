@@ -42,8 +42,8 @@ namespace KompaerjonApi.Controllers
             await authentication.StartAsync(loginUser.Email, loginUser.Password);
             if (authentication.State)
             {
-                var userLoggedIn = new UserLoggedIn(authentication.UserId,
-                    authentication.UserName, authentication.UserEmail, authentication.EncodedToken);
+                var userLoggedIn = new UserLoggedIn(authentication.UserId, authentication.UserName,
+                    authentication.UserEmail, authentication.EncodedToken, authentication.TokenValidTo);
                 return CreatedAtAction(nameof(Login), new { id = userLoggedIn.UserId }, userLoggedIn);
             }
             else
