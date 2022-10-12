@@ -16,7 +16,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index path="/" element={<HomePage />} />
           <Route path="/users/:userId" element={<HomePage />} />
-          <Route path="/users/:userId/comparisons" element={<main>Bald verfügbar</main>} />
+          <Route path="/users/:userId/comparisons" element={<main>Bald verfügbar (Iframe für Ziel-Seite?)</main>} />
           <Route path="/users/:userId/comparisons/:comparisonId" element={<ComparisonPage />} />
           <Route path="/users/:userId/comparisons/:comparisonId/entries/:entryId" element={<main>Bald verfügbar</main>} />
           <Route path="/contact" element={<ContactPage />} />
