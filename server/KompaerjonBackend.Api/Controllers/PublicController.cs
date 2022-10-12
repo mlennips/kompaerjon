@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KompaerjonBackend.Api.Processes;
 using KompaerjonBackend.Business.Commands;
 using KompaerjonBackend.Business.Events;
 using KompaerjonBackend.Business.Models;
@@ -18,25 +19,37 @@ namespace KompaerjonApi.Controllers
     public class PublicController : ControllerBase
     {
         private readonly UserService userService;
+        private readonly IConfiguration configuration;
 
-        public PublicController(UserService userService)
+        public PublicController(UserService userService, IConfiguration configuration)
         {
             this.userService = userService;
+            this.configuration = configuration;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserRegistered>> PostRegister(RegisterUser registerUser)
+        public async Task<ActionResult<UserRegistered>> Register(RegisterUser registerUser)
         {
             var name = string.IsNullOrWhiteSpace(registerUser.Name) ? registerUser.Email : registerUser.Name;
             var userRegistered = await this.userService.RegisterAsync(registerUser.Name, registerUser.Email, registerUser.Password);
-            return CreatedAtAction(nameof(PostRegister), new { id = userRegistered.UserId }, userRegistered);
+            return CreatedAtAction(nameof(Register), new { id = userRegistered.UserId }, userRegistered);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserLoggedIn>> PostLogin(LoginUser loginUser)
+        public async Task<ActionResult<UserLoggedIn>> Login(LoginUser loginUser)
         {
-            var userLoggedIn = await this.userService.LoginAsync(loginUser.Email, loginUser.Password);
-            return CreatedAtAction(nameof(PostLogin), new { id = userLoggedIn.UserId }, userLoggedIn);
+            var authentication = new AuthenticateUser(this.userService, this.configuration);
+            await authentication.StartAsync(loginUser.Email, loginUser.Password);
+            if (authentication.State)
+            {
+                var userLoggedIn = new UserLoggedIn(authentication.UserId,
+                    authentication.UserName, authentication.UserEmail, authentication.EncodedToken);
+                return CreatedAtAction(nameof(Login), new { id = userLoggedIn.UserId }, userLoggedIn);
+            }
+            else
+            {
+                return BadRequest(authentication.StateMessage);
+            }
         }
     }
 }

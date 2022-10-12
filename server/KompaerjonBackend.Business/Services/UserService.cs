@@ -38,17 +38,20 @@ namespace KompaerjonBackend.Business.Services
             return user;
         }
 
-        public async Task<UserLoggedIn> LoginAsync(string email, string password)
+        public async Task<User?> CheckCredentialsAsync(string email, string password)
         {
-            var user = await this.context.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
-            if (user == null)
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
-                throw new DomainException("Benutzer und/oder Passwort ungültig.");
+                throw new DomainException("Zugangsdaten ungültig");
             }
+            return await this.context.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+        }
+
+        public async Task UpdateLoginAsync(Guid id)
+        {
+            var user = await this.GetAsync(id);
             user.Login();
             await this.context.SaveChangesAsync();
-            var token = "";
-            return new UserLoggedIn(user.Id, user.Name, user.Email, token);
         }
 
         public async Task<User> GetAsync(Guid id)
@@ -68,6 +71,7 @@ namespace KompaerjonBackend.Business.Services
                 throw new DomainException("Email invalid");
             }
         }
+
     }
 }
 

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KompaerjonApi.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ComparisonsController : ControllerBase

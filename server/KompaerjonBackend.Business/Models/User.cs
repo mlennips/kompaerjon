@@ -13,11 +13,12 @@ namespace KompaerjonBackend.Business.Models
         public DateTime Created { get; set; }
 
         public DateTime? Updated { get; set; }
-        [Required]
-        public string Name { get; set; }
 
         [Required]
         public string Email { get; set; }
+
+        [Required]
+        public string Name { get; set; }
 
         [Required]
         [IgnoreDataMember]

@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.AddJwtAuth();
+builder.Services.AddSwagger();
+builder.Services.AddJwtAuth(builder.Configuration);
 
 builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseInMemoryDatabase("KompaerjonContext"));
@@ -44,6 +44,6 @@ app.Run();
 static void SeedDemoData(WebApplication app)
 {
     var scope = app.Services.CreateScope();
-    var dataContext = scope.ServiceProvider.GetService<DataContext>();
+    var dataContext = scope.ServiceProvider.GetRequiredService<DataContext>();
     new KompaerjonBackend.Business.Processes.SeedDemoData(dataContext).Start();
 }

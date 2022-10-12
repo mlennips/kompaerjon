@@ -2,16 +2,50 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace KompaerjonBackend.Infrastructure.Auth
 {
     public static class Extensions
     {
-        public static WebApplicationBuilder AddJwtAuth(this WebApplicationBuilder builder)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            return services.AddSwaggerGen(setup =>
+            {
+                setup.AddSecurityDefinition(name: "Bearer", securityScheme: new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Description = "Enter the Bearer Authorization string as following: `Bearer Generated-JWT-Token`",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference
+                            {
+                                Id = "Bearer",
+                                Type = ReferenceType.SecurityScheme
+                            }
+                        },
+                        new List<string>()
+                    }
+                });
+            });
+        }
+
+        public static IServiceCollection AddJwtAuth(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
@@ -19,12 +53,12 @@ namespace KompaerjonBackend.Infrastructure.Auth
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    ValidAudience = configuration["JWT:Audience"],
+                    ValidIssuer = configuration["JWT:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
                 };
             });
-            return builder;
+            return services;
         }
     }
 }
