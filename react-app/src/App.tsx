@@ -8,8 +8,10 @@ import ComparisonPage from './features/comparison/pages/ComparisonPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import HomePage from './pages/HomePage/HomePage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import AuthService from './services/AuthService';
 
 function App() {
+  AuthService.checkLogin();
   return (
     <BrowserRouter>
       <Routes>

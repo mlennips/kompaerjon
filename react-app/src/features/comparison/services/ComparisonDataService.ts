@@ -3,7 +3,7 @@ import { IComparison } from "../types";
 import './_mocks_/comparison';
 
 const getAll = (userId: string) => {
-  return http.get<IComparison[]>(`/users/${userId}/comparisons`);
+  return http.get<IComparison[]>(`/Comparisons?userId=${userId}`);
 };
 
 const get = (userId: string, id: string) => {

@@ -1,25 +1,48 @@
 import React, { FC } from 'react';
-import { Card, Col, Container, Row } from 'react-bootstrap';
-import { useParams } from "react-router-dom";
+import { Button, Card, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+import { useNavigate, useParams } from "react-router-dom";
+import LoginForm from '../../components/forms/LoginForm/LoginForm';
 
 import ComparisonList from '../../features/comparison/components/ComparisonList/ComparisonList';
+import AuthService from '../../services/AuthService';
 import './HomePage.scss';
 
 interface HomePageProps { }
 
 const HomePage: FC<HomePageProps> = () => {
   let params = useParams();
-  let userId = params.userId;
+  let navigate = useNavigate();
+
+  let userId = AuthService.checkLogin() ? params.userId : null;
+  if (!userId) {
+    userId = AuthService.checkLogin() ? AuthService.getUserId() : null;
+    if (userId) {
+      navigate('/users/' + userId);
+    }
+  }
 
   return <div className="HomePage" data-testid="HomePage">
     <Container>
       <Row className="py-5">
-        <Col>
+        <Col sm={6} md={6} lg={8} >
           <h2>Willkommen bei Kompaerjon!</h2>
           Dein persönlicher Helfer, der Dich beim Vergleichen unterstützt.
         </Col>
+        {!userId && <Col sm={6} md={6} lg={4}>
+          <Tabs
+            defaultActiveKey="login"
+            id="auth-tab"
+            className="mb-3">
+            <Tab eventKey="login" title="Anmelden">
+              <LoginForm />
+            </Tab>
+            <Tab eventKey="register" title="Registrieren">
+              <h4>Registrieren</h4>
+            </Tab>
+          </Tabs>
+        </Col>}
       </Row>
-      <Row xs={1} sm={1} md={3} className='g-4 highlights'>
+      <Row xs={1} sm={1} md={2} lg={3} className='g-4 highlights'>
         <Col>
           <Card border='primary' className="h-100">
             <Card.Body>
@@ -39,7 +62,7 @@ const HomePage: FC<HomePageProps> = () => {
                 Vereinheitliche Merkmale
               </Card.Title>
               <Card.Text>
-                Suche nach Merkmalen mit verschiedenen Schlüsselwörtern. So findest du dein Auto mit Anhängerkupplung (oder doch AHK?). 
+                Suche nach Merkmalen mit verschiedenen Schlüsselwörtern. So findest du dein Auto mit Anhängerkupplung (oder doch AHK?).
               </Card.Text>
             </Card.Body>
           </Card>
@@ -87,7 +110,7 @@ const HomePage: FC<HomePageProps> = () => {
                 Lorem ipsum
               </Card.Title>
               <Card.Text>
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.
               </Card.Text>
             </Card.Body>
           </Card>
@@ -96,9 +119,10 @@ const HomePage: FC<HomePageProps> = () => {
       {userId && <Row className="py-5">
         <h4>Deine Vergleiche</h4>
         <ComparisonList />
-      </Row>} 
+      </Row>}
     </Container>
   </div>
 };
+
 
 export default HomePage;

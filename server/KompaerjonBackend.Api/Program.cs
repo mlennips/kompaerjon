@@ -16,6 +16,7 @@ builder.Services.AddJwtAuth(builder.Configuration);
 
 builder.Services.AddDbContext<DataContext>(opt =>
     opt.UseInMemoryDatabase("KompaerjonContext"));
+builder.Services.AddCors();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ComparisonService>();
@@ -29,6 +30,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     SeedDemoData(app);
 }
+
+app.UseCors(x => x
+     .AllowAnyMethod()
+     .AllowAnyHeader()
+     .SetIsOriginAllowed(origin => true) // allow any origin
+     .AllowCredentials()); // allow credentials
 
 app.UseHttpsRedirection();
 
