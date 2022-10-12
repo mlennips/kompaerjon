@@ -27,6 +27,10 @@ namespace KompaerjonApi.Controllers
         [HttpGet]
         public async Task<ActionResult<Comparison[]>> GetComparisons(Guid userId)
         {
+            if(userId == Guid.Empty)
+            {
+                BadRequest("UserId required");
+            }
             return await this.comparisonService.GetForUserAsync(userId);
         }
 
