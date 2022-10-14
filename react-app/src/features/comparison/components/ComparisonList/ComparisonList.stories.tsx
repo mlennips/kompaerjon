@@ -5,7 +5,7 @@ export default {
   title: "ComparisonList",
 };
 
-export const Default = () => <ComparisonList />;
+export const Default = () => <ComparisonList userId='1' />;
 
 Default.story = {
   name: 'default',

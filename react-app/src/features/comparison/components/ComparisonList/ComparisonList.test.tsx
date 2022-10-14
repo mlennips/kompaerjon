@@ -5,7 +5,7 @@ import ComparisonList from './ComparisonList';
 
 describe('<ComparisonList />', () => {
   test('it should mount', () => {
-    render(<ComparisonList />);
+    render(<ComparisonList userId="1" />);
     
     const comparisonList = screen.getByTestId('ComparisonList');
 

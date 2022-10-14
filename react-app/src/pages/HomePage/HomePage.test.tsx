@@ -8,7 +8,6 @@ describe('<HomePage />', () => {
     render(<HomePage />);
     
     const homePage = screen.getByTestId('HomePage');
-
     expect(homePage).toBeInTheDocument();
   });
 });

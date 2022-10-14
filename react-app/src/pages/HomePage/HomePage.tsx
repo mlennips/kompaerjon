@@ -1,25 +1,32 @@
-import React, { FC } from 'react';
-import { Button, Card, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
-import { useNavigate, useParams } from "react-router-dom";
+import React, { FC, useContext, useEffect, useState } from 'react';
+import { Card, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
+import { IAuthInfo } from '../../@types/auth';
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
+import AuthContext from '../../context/AuthContext';
 
 import ComparisonList from '../../features/comparison/components/ComparisonList/ComparisonList';
-import AuthService from '../../services/AuthService';
 import './HomePage.scss';
 
-interface HomePageProps { }
+interface HomePageProps { 
+}
 
 const HomePage: FC<HomePageProps> = () => {
-  let params = useParams();
-  let navigate = useNavigate();
 
-  let userId = AuthService.checkLogin() && params.userId ? params.userId : null;
-  if (!userId) {
-    userId = AuthService.checkLogin() ? AuthService.getUserId() : null;
-    if (userId) {
-      navigate('/users/' + userId);
-    }
-  }
+  let [authInfo] = useState<IAuthInfo>();
+  console.log(99, 'App', authInfo);
+  // let userId = authInfo?.userId;
+  // let navigate = useNavigate();
+  // userId = authInfo?.userId;
+  // console.log(99, 'homepage', userId);
+  // if (userId) {
+  //   navigate('/users/' + userId);
+  // }
+  const { userId } = useContext(AuthContext);
+  console.log(99, 'App', userId);
+
+  useEffect(() =>  {    
+    console.log(99, 'App-1', userId);
+  }, [userId]);
 
   return <div className="HomePage" data-testid="HomePage">
     <Container>
@@ -118,7 +125,7 @@ const HomePage: FC<HomePageProps> = () => {
       </Row>
       {userId && <Row className="py-5">
         <h4>Deine Vergleiche</h4>
-        <ComparisonList />
+        <ComparisonList userId={userId} />
       </Row>}
     </Container>
   </div>

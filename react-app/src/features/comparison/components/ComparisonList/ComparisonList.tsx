@@ -2,15 +2,15 @@ import React, { useEffect, useState, FC } from 'react';
 import { Button, Card, Col, Row, Spinner, Stack } from 'react-bootstrap';
 import ComparisonDataService from '../../services/ComparisonDataService';
 import { IComparison } from '../../types';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './ComparisonList.scss';
 
-interface ComparisonListProps {}
+interface ComparisonListProps {
+  userId: string;
+}
 
-const ComparisonList: FC<ComparisonListProps> = () => {
+const ComparisonList: FC<ComparisonListProps> = ({userId}) => {
   let navigate = useNavigate();
-  let params = useParams();
-  let userId: string = params.userId ?? '';
   
   const [comparisons, setComparisons] = useState<IComparison[]>();
 
@@ -39,7 +39,7 @@ const ComparisonList: FC<ComparisonListProps> = () => {
         <span className='mx-2'>Bitte warten</span>
       </Stack>
     </div>
-  } else  if (comparisons.length == 0) {
+  } else  if (comparisons.length === 0) {
     return <div className="ComparisonPage" data-testid="ComparisonPage">
       Noch keine Vergleiche
       <Button>Loslegen</Button>
