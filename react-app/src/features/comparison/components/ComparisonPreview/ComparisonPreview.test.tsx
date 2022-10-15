@@ -1,13 +1,13 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import ComparisonList from './ComparisonList';
+import ComparisonPreview from './ComparisonPreview';
 
 describe('<ComparisonList />', () => {
   test('it should mount', () => {
-    render(<ComparisonList userId="1" />);
+    render(<ComparisonPreview userId="1" />);
     
-    const comparisonList = screen.getByTestId('ComparisonList');
+    const comparisonList = screen.getByTestId('ComparisonPreview');
 
     expect(comparisonList).toBeInTheDocument();
   });

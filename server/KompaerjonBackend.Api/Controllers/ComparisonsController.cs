@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KompaerjonBackend.Business.Models;
 using KompaerjonBackend.Business.Services;
+using KompaerjonBackend.Business.Services.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,20 +26,22 @@ namespace KompaerjonApi.Controllers
 
         // GET: api/Comparisons
         [HttpGet]
-        public async Task<ActionResult<Comparison[]>> GetComparisons(Guid userId)
+        public async Task<ActionResult<ComparisonDto[]>> GetComparisons(Guid userId)
         {
             if(userId == Guid.Empty)
             {
                 BadRequest("UserId required");
             }
-            return await this.comparisonService.GetForUserAsync(userId);
+            var comparisons = await this.comparisonService.GetForUserAsync(userId);
+            return comparisons;
         }
 
         // GET: api/Comparisons/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comparison>> GetComparison(Guid id)
+        public async Task<ActionResult<ComparisonDetailDto>> GetComparison(Guid id)
         {
-            return await this.comparisonService.GetAsync(id);
+            var comparison = await this.comparisonService.GetAsync(id);
+            return comparison;
         }
 
         // PUT: api/Comparisons/5

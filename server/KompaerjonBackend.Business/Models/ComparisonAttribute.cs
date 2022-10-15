@@ -4,11 +4,13 @@ namespace KompaerjonBackend.Business.Models
     {
         public Guid Id { get; set; }
 
+        public Guid ComparisonId { get; set; }
+
         public Comparison Comparison { get; set; }
 
         public DateTime Created { get; set; }
 
-        public DateTime Updated { get; set; }
+        public DateTime? Updated { get; set; }
 
         public string Key { get; set; }
 

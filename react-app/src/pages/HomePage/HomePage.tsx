@@ -4,7 +4,7 @@ import { IAuthInfo } from '../../@types/auth';
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
 import AuthContext from '../../context/AuthContext';
 
-import ComparisonList from '../../features/comparison/components/ComparisonList/ComparisonList';
+import ComparisonPreview from '../../features/comparison/components/ComparisonPreview/ComparisonPreview';
 import './HomePage.scss';
 
 interface HomePageProps { 
@@ -12,8 +12,7 @@ interface HomePageProps {
 
 const HomePage: FC<HomePageProps> = () => {
 
-  let [authInfo] = useState<IAuthInfo>();
-  console.log(99, 'App', authInfo);
+  // let [authInfo] = useState<IAuthInfo>();
   // let userId = authInfo?.userId;
   // let navigate = useNavigate();
   // userId = authInfo?.userId;
@@ -125,7 +124,7 @@ const HomePage: FC<HomePageProps> = () => {
       </Row>
       {userId && <Row className="py-5">
         <h4>Deine Vergleiche</h4>
-        <ComparisonList userId={userId} />
+        <ComparisonPreview userId={userId} />
       </Row>}
     </Container>
   </div>

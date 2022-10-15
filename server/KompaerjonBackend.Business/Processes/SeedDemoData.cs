@@ -22,10 +22,12 @@ namespace KompaerjonBackend.Business.Processes
             if (!this.dataContext.Users.Any())
             {
                 var demoUser = this.userService.AddAsync("Demo", "demo@lennips.de", "Demo%1234").Result;
+                var comparisonNames = new string[] { "Wohnung 2017", "Auto 2018", "Haus 2020", "Auto 2022" };
 
-                for (int i = 1; i <= 4; i++)
+                foreach (var comparisonName in comparisonNames)
                 {
-                    var comparison = this.comparisonService.AddAsync(demoUser.Id, $"Mein Vergleich {2018 + i}", "", "car").Result;
+                    var comparison = this.comparisonService.AddAsync(demoUser.Id, comparisonName,
+                        $"Dieser Vergleich wurde am {DateTime.Now.ToLongDateString()} erstellt.", "car").Result;
 
                     string[] urls = {
                         "https://suchen.mobile.de/fahrzeuge/details.html?id=353446916&action=parkItem",

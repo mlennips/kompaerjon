@@ -5,7 +5,11 @@ namespace KompaerjonBackend.Business.Models
 
         public Guid Id { get; set; }
 
+        public Guid ComparisonEntryId { get; set; }
+
         public ComparisonEntry ComparisonEntry { get; set; }
+
+        public Guid ComparisonAttributeId { get; set; }
 
         public ComparisonAttribute ComparisonAttribute { get; set; }
 
