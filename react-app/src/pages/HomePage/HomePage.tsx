@@ -20,11 +20,12 @@ const HomePage: FC<HomePageProps> = () => {
   // if (userId) {
   //   navigate('/users/' + userId);
   // }
+  let [authInfo] = useState<IAuthInfo>({token: null, userId: null, expiresAt: null, isAuthenticated: false});
   const { userId } = useContext(AuthContext);
-  console.log(99, 'App', userId);
+  console.log(99, 'App', userId, authInfo?.userId);
 
   useEffect(() =>  {    
-    console.log(99, 'App-1', userId);
+    console.log(99, 'App-1', userId, authInfo?.userId);
   }, [userId]);
 
   return <div className="HomePage" data-testid="HomePage">

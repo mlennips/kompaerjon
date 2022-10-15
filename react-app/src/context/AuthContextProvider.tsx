@@ -15,18 +15,20 @@ let isLocalStorageHandled = false;
 const AuthProvider: FC<Props> = ({ children }) => {
   const [authInfo, setAuthInfo] = useState<IAuthInfo>({token: null, expiresAt: null, userId: null, isAuthenticated: false});
 
-  let token = authInfo.token;
-  let userId = authInfo.userId;
-  let expiresAt = authInfo.expiresAt;
+  let authTokenFromStorage = LocalStorageService.get('authToken');
+  let authUserIdFromStorage = LocalStorageService.get('authUserId');
+  let authExpiresFromStorage = LocalStorageService.get('authExpires');
 
-  const updateState = () => {
+  const updateState = (token: string, userId: string, expiresAt: Date) => {
     if (token && userId && expiresAt) {
       LocalStorageService.set('authToken', token);
       LocalStorageService.set('authUserId', userId);
       LocalStorageService.set('authExpires', expiresAt.toString());
-      //axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      console.log(99, 'auth', 'localStorage changed', token, userId, expiresAt);
-      if (authInfo.token !== token) {
+      authTokenFromStorage = token;
+      authUserIdFromStorage = userId;
+      authExpiresFromStorage = expiresAt.toString();
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      if (!authInfo.isAuthenticated || authInfo.token !== token) {
         console.log(99, 'auth', 'state changed', '!!!');
         setAuthInfo({ token: token, userId: userId, expiresAt: expiresAt, isAuthenticated: true});
       }
@@ -39,9 +41,6 @@ const AuthProvider: FC<Props> = ({ children }) => {
     LocalStorageService.remove('authToken');
     LocalStorageService.remove('authUserId');
     LocalStorageService.remove('authExpires');  
-    token = null;
-    userId = null;
-    expiresAt = null;
     delete axios.defaults.headers.common["Authorization"];
     if (authInfo.token != null) {
       setAuthInfo({ token: null, userId: null, expiresAt: null, isAuthenticated: false });
@@ -49,13 +48,12 @@ const AuthProvider: FC<Props> = ({ children }) => {
   }
 
   const checkAuthentication = () => {
-    const expiresAt = authInfo.expiresAt;
-    console.log(99, 'auth', 'isAuthenticated', expiresAt, authInfo?.expiresAt);
-    if (expiresAt) {
+    if (authExpiresFromStorage) {
+      const expiresAt = new Date(authExpiresFromStorage);
+      console.log(99, 'auth', 'checkAuthentication', expiresAt, authInfo?.expiresAt);
       return new Date().getTime() < expiresAt.getTime();
-    } else {
-      return false;
     }
+    return false;
   }
 
   const login = (email: string, password: string) => {
@@ -63,10 +61,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
     http.post(`/Public/login/`, data)
       .then(response => {
         console.log(99, 'login-ok');
-        token = response.data.token;
-        userId = response.data.userId;
-        expiresAt = new Date(response.data.validTo);
-        updateState();
+        updateState(response.data.token, response.data.userId, new Date(response.data.validTo));
       });
   }
 
@@ -88,21 +83,16 @@ const AuthProvider: FC<Props> = ({ children }) => {
   if (isFirstRender) {
     console.log(99, 'auth', 'firstRender');
     isFirstRender = false;
-    let authTokenFromStorage = LocalStorageService.get('authToken');
-    let authUserIdFromStorage = LocalStorageService.get('authUserId');
-    let authExpiresFromStorage = LocalStorageService.get('authExpires');
-    console.log(99, 'auth', 'firstRender', authTokenFromStorage, authUserIdFromStorage, authExpiresFromStorage);
+    console.log(99, 'auth', 'firstRender', authTokenFromStorage);
     if (authTokenFromStorage && authUserIdFromStorage && authExpiresFromStorage) {
       console.log(99, 'auth', 'firstRender', 'LocalStorage Valid');
-      token = authExpiresFromStorage;
-      userId = authUserIdFromStorage;
-      expiresAt = new Date(authExpiresFromStorage);
-      setAuthInfo({
-        token: token,
-        userId: userId,
-        expiresAt: expiresAt,
-        isAuthenticated: true
-      });
+      // setAuthInfo({
+      //   token: authExpiresFromStorage,
+      //   userId: authUserIdFromStorage,
+      //   expiresAt: new Date(authExpiresFromStorage || 0),
+      //   isAuthenticated: true
+      // });
+      updateState(authTokenFromStorage, authUserIdFromStorage, new Date(authExpiresFromStorage));
       isLocalStorageHandled = true;
     } 
   }
