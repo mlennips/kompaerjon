@@ -11,7 +11,6 @@ interface ComparisonPreviewProps {
 
 const ComparisonPreview: FC<ComparisonPreviewProps> = ({userId}) => {
   let navigate = useNavigate();
-  
   const [comparisons, setComparisons] = useState<IComparison[]>();
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const ComparisonPreview: FC<ComparisonPreviewProps> = ({userId}) => {
         setComparisons(response.data);
       })
       .catch((e: Error) => {
-        console.log(99, e);
+        console.log(e);
       });
   }, [userId]);
 

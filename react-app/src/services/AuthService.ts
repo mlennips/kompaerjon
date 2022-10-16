@@ -5,7 +5,6 @@ import LocalStorageService from "./LocalStorageService";
 let authInfo: IAuthInfo | null = null;
 
 const init = () => {
-  console.log(99, 'authService', 'init');
   let authFromLocalStorage = LocalStorageService.get('auth'); 
   if (authFromLocalStorage) {
     authInfo = <IAuthInfo>JSON.parse(authFromLocalStorage);
@@ -20,7 +19,6 @@ const login = (email: string , password: string) => {
     const data = { email: email, password: password };
     let postResult = http.post(`/Public/login/`, data)
       .then(response => {
-        console.log(99, 'login-ok');
         var token = response.data.token;
         var userId = response.data.userId;
         var expiresAt = new Date(response.data.expiresAt);

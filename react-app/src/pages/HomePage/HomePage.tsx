@@ -12,14 +12,6 @@ interface HomePageProps {
 
 const HomePage: FC<HomePageProps> = () => {
 
-  // let [authInfo] = useState<IAuthInfo>();
-  // let userId = authInfo?.userId;
-  // let navigate = useNavigate();
-  // userId = authInfo?.userId;
-  // console.log(99, 'homepage', userId);
-  // if (userId) {
-  //   navigate('/users/' + userId);
-  // }
   const context = useContext(AuthContext);
   let userId = context.userId;
 

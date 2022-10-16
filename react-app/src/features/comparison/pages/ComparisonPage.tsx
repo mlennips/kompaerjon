@@ -21,7 +21,7 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
 
   useEffect(() => {
     retrieveComparisons();
-  }, []);
+  }, [comparisonId]);
 
   const retrieveComparisons = () => {
     ComparisonDataService.get(comparisonId)
@@ -29,7 +29,7 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
         setComparisonDetail(response.data);
       })
       .catch((e: Error) => {
-        console.log(99, e);
+        console.log(e);
       });
   };
 

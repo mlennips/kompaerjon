@@ -15,8 +15,7 @@ const AuthProvider: FC<Props> = ({ children }) => {
     AuthService.init();
   }
   let [state, setState] = useState<IAuthInfo | null>(AuthService.get());
-  console.log(99, 'AuthProvider', 1);
-  
+
   const login = (email: string, password: string) => {
     AuthService.login(email, password).then(() => {
       let authInfo = AuthService.get();
