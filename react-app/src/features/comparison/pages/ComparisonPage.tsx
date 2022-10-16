@@ -24,7 +24,7 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
   }, []);
 
   const retrieveComparisons = () => {
-    ComparisonDataService.get(userId, comparisonId)
+    ComparisonDataService.get(comparisonId)
       .then((response: any) => {
         setComparisonDetail(response.data);
       })

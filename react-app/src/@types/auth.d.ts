@@ -1,7 +1,6 @@
 export interface IAuthInfo {
-    token: string | null;
-    expiresAt: Date | null;
-    userId: string | null;
-    isAuthenticated: boolean;
+    token: string;
+    expiresAt: Date;
+    userId: string;
 }
 

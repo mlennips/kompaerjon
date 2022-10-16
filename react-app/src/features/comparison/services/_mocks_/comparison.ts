@@ -1,5 +1,5 @@
 import { IComparison } from '../../types';
-import { axiosMockAdapterInstance as mock } from '../../../../utils/helpers/http-common';
+//import { axiosMockAdapterInstance as mock } from '../../../../utils/helpers/http-common';
 
 const data = <IComparison[]>[
     // {
@@ -23,12 +23,12 @@ const data = <IComparison[]>[
     // }
 ]
 
-mock
-    .onGet('/users/1234/comparisons')
-    .reply(() => {
-        return [200, data];
-    })
-    .onGet('/users/1234/comparisons/1')
-    .reply(() => {
-        return [200, data.find(x => x.id == '1')];
-    });
+// mock
+//     .onGet('/users/1234/comparisons')
+//     .reply(() => {
+//         return [200, data];
+//     })
+//     .onGet('/users/1234/comparisons/1')
+//     .reply(() => {
+//         return [200, data.find(x => x.id == '1')];
+//     });

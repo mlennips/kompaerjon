@@ -1,12 +1,12 @@
 import http from "../../../utils/helpers/http-common";
 import { IComparison, IComparisonDetail } from "../types";
-import './_mocks_/comparison';
+// import './_mocks_/comparison';
 
 const getAll = (userId: string) => {
   return http.get<IComparison[]>(`/Comparisons?userId=${userId}`);
 };
 
-const get = (userId: string, id: string) => {
+const get = (id: string) => {
   return http.get<IComparisonDetail>(`/Comparisons/${id}`);
 };
 

@@ -43,7 +43,7 @@ namespace KompaerjonApi.Controllers
             if (authentication.State)
             {
                 var userLoggedIn = new UserLoggedIn(authentication.UserId, authentication.UserName,
-                    authentication.UserEmail, authentication.EncodedToken, authentication.TokenValidTo);
+                    authentication.UserEmail, authentication.EncodedToken, authentication.TokenExpiresAt);
                 return CreatedAtAction(nameof(Login), new { id = userLoggedIn.UserId }, userLoggedIn);
             }
             else
