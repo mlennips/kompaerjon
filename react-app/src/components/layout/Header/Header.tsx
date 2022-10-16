@@ -13,8 +13,9 @@ import './Header.scss';
 interface NavBarProps { }
 
 const NavBar: FC<NavBarProps> = () => {
-  const context = useContext(AuthContext);
-  let userId = context.userId;
+  const authContext = useContext(AuthContext);
+  let userId = authContext.userId;
+  let isAuthenticated = authContext.isAuthenticated;
   const [comparisons, setComparisons] = useState<IComparison[]>([]);
 
   useEffect(() => {
@@ -26,24 +27,26 @@ const NavBar: FC<NavBarProps> = () => {
       .catch((e: Error) => {
         console.log(e);
       });
+    } else {
+      setComparisons([]);
     }
-  }, [userId]);
+  }, [isAuthenticated]);
 
   const handleLogout = () => {
-    context.logout();
+    authContext.logout();
   }
   
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Kompaerjon</Navbar.Brand>
+        <Navbar.Brand href={userId ? '/users/' + userId : '/'}>Kompaerjon</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <LinkContainer to="/">
+            <LinkContainer to={userId ? '/users/' + userId : '/'}>
               <Nav.Link>Start</Nav.Link>
             </LinkContainer>
-            <NavDropdown title="Vergleiche" id="basic-nav-dropdown">
+            {isAuthenticated &&<NavDropdown title="Vergleiche" id="basic-nav-dropdown">
               <LinkContainer to="/comparison">
                 <NavDropdown.Item>Übersicht</NavDropdown.Item>
               </LinkContainer>
@@ -53,7 +56,7 @@ const NavBar: FC<NavBarProps> = () => {
                   <NavDropdown.Item>{comparison.name}</NavDropdown.Item>
                 </LinkContainer>
               })}
-            </NavDropdown>
+            </NavDropdown>}
             <LinkContainer to="/contact">
               <Nav.Link>Kontakt</Nav.Link>
             </LinkContainer>

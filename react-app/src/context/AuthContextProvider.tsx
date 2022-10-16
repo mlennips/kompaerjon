@@ -14,23 +14,20 @@ const AuthProvider: FC<Props> = ({ children }) => {
     isFirstRender = false;
     AuthService.init();
   }
-  let [state, setState] = useState<IAuthInfo | null>(AuthService.get());
+  let [state, setState] = useState<IAuthInfo>(AuthService.get());
 
-  const login = async (email: string, password: string) => {
-    return AuthService.login(email, password).then(() => {
-      let authInfo = AuthService.get();
-      if (authInfo) {
-        setState({
-          token: authInfo.token,
-          userId: authInfo.userId,
-          expiresAt: authInfo.expiresAt,          
-        });
-      }
-    });    
+  const login = async (email: string, password: string) : Promise<IAuthInfo> => {
+    let loginResult = await AuthService.login(email, password);
+    let result = AuthService.get();
+    if (loginResult) {
+      setState(result);
+    }
+    return new Promise(x => x(result));  
   }
 
   const logout = () => {
     AuthService.logout();
+    setState(AuthService.get());
   }
   
   return (

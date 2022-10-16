@@ -1,11 +1,12 @@
 import React from "react";
+import { IAuthInfo } from "../@types/auth";
 
 export const defaultAuthContext: AuthContextProps = {
     token: null,
     userId: null,
     expiresAt: null,
     isAuthenticated: false,
-    login: () => Promise.resolve(),
+    login: () => Promise.resolve({ token: null, userId: null, expiresAt: null, isAuthenticated: false}),
     logout: () => { }
 }
 
@@ -14,7 +15,7 @@ interface AuthContextProps {
     expiresAt: Date | null;
     userId: string | null;
     isAuthenticated: boolean;
-    login: (email: string, password: string) => Promise<any>;
+    login: (email: string, password: string) => Promise<IAuthInfo>;
     logout: () => void;
 }
 

@@ -2,35 +2,36 @@ import { IAuthInfo } from "../@types/auth";
 import http from "../utils/helpers/http-common";
 import LocalStorageService from "./LocalStorageService";
 
-let authInfo: IAuthInfo | null = null;
+const authInfoDefault = {token: null, userId: null, expiresAt: null, isAuthenticated: false};
+let authInfo: IAuthInfo = authInfoDefault;
 
 const init = () => {
   let authFromLocalStorage = LocalStorageService.get('auth'); 
   if (authFromLocalStorage) {
     authInfo = <IAuthInfo>JSON.parse(authFromLocalStorage);
-    authInfo.expiresAt = new Date(authInfo.expiresAt);
+    if (authInfo && authInfo.expiresAt) {
+      authInfo.expiresAt = new Date(authInfo.expiresAt);
+    }
     if (!check()) {
-      authInfo = null;
+      authInfo = authInfoDefault;
     }
   } 
 }
 
-const login = (email: string , password: string) => {
+const login = async (email: string , password: string) => {
     const data = { email: email, password: password };
-    let postResult = http.post(`/Public/login/`, data)
-      .then(response => {
-        var token = response.data.token;
-        var userId = response.data.userId;
-        var expiresAt = new Date(response.data.expiresAt);
-        authInfo = { token: token, userId: userId, expiresAt: expiresAt }
-        LocalStorageService.set('auth', JSON.stringify(authInfo));
-      });
+    let postResult = await http.post(`/Public/login/`, data)
+    var token = postResult.data.token;
+    var userId = postResult.data.userId;
+    var expiresAt = new Date(postResult.data.expiresAt);
+    authInfo = { token: token, userId: userId, expiresAt: expiresAt, isAuthenticated: true }
+    LocalStorageService.set('auth', JSON.stringify(authInfo));
     return postResult; 
 };
 
 const logout = () => {
   LocalStorageService.remove('auth');
-  authInfo = null;
+  authInfo = authInfoDefault;
 };
 
 const check = () => {

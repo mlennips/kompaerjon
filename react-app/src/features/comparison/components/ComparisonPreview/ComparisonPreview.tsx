@@ -14,13 +14,17 @@ const ComparisonPreview: FC<ComparisonPreviewProps> = ({userId}) => {
   const [comparisons, setComparisons] = useState<IComparison[]>();
 
   useEffect(() => {
-    ComparisonDataService.getAll(userId)
+    if(userId) {
+      ComparisonDataService.getAll(userId)
       .then((response: any) => {
         setComparisons(response.data);
       })
       .catch((e: Error) => {
         console.log(e);
       });
+    } else {
+      setComparisons([]);
+    }
   }, [userId]);
 
   const openComparison = (userId: string, comparisonId: string) => {

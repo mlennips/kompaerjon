@@ -14,8 +14,10 @@ const LoginForm: FC<LoginFormProps> = () => {
   const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     var { email, password } = document.forms[0];
-    authContext.login(email.value, password.value).then(() => {
-      navigate('/users/' + authContext.userId);
+    authContext.login(email.value, password.value).then(value => {
+      if (value.userId) {
+        navigate('/users/' + value.userId);
+      }
     });
   };
 
