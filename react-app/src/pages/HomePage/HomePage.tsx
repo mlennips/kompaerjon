@@ -1,20 +1,18 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { Card, Col, Container, Row, Tab, Tabs } from 'react-bootstrap';
-import { IAuthInfo } from '../../@types/auth';
+import { useParams } from 'react-router-dom';
 import LoginForm from '../../components/forms/LoginForm/LoginForm';
-import AuthContext from '../../context/AuthContext';
 
 import ComparisonPreview from '../../features/comparison/components/ComparisonPreview/ComparisonPreview';
 import './HomePage.scss';
 
 interface HomePageProps { 
+  
 }
 
 const HomePage: FC<HomePageProps> = () => {
-
-  const context = useContext(AuthContext);
-  let userId = context.userId;
-
+  let params = useParams();
+  let userId: string | null = params.userId ?? null;
   return <div className="HomePage" data-testid="HomePage">
     <Container>
       <Row className="py-5">

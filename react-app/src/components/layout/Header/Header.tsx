@@ -13,10 +13,9 @@ import './Header.scss';
 interface NavBarProps { }
 
 const NavBar: FC<NavBarProps> = () => {
-  let navigate = useNavigate();
   const context = useContext(AuthContext);
   let userId = context.userId;
-  const [comparisons, setComparisons] = useState<IComparison[]>();
+  const [comparisons, setComparisons] = useState<IComparison[]>([]);
 
   useEffect(() => {
     if (userId) {
@@ -30,9 +29,9 @@ const NavBar: FC<NavBarProps> = () => {
     }
   }, [userId]);
 
-  const openComparison = (userId: string, comparisonId: string) => {
-    navigate('/users/' + userId + '/comparisons/' + comparisonId);
-  };
+  const handleLogout = () => {
+    context.logout();
+  }
   
   return (
     <Navbar bg="light" expand="lg">
@@ -48,16 +47,20 @@ const NavBar: FC<NavBarProps> = () => {
               <LinkContainer to="/comparison">
                 <NavDropdown.Item>Übersicht</NavDropdown.Item>
               </LinkContainer>
-              { userId && <NavDropdown.Divider /> }
-              { userId && comparisons?.map((comparison, index) => {
+              { comparisons.length > 0 && <NavDropdown.Divider /> }
+              { comparisons.length > 0 && comparisons.map((comparison, index) => {
                 return <LinkContainer key={index} to={'/users/'+userId+'/comparisons/'+comparison.id}>
                   <NavDropdown.Item>{comparison.name}</NavDropdown.Item>
                 </LinkContainer>
               })}
-              
             </NavDropdown>
             <LinkContainer to="/contact">
               <Nav.Link>Kontakt</Nav.Link>
+            </LinkContainer>
+          </Nav>
+          <Nav>
+            <LinkContainer to="/" onClick={handleLogout}>
+              <Nav.Link>Abmelden</Nav.Link>
             </LinkContainer>
           </Nav>
         </Navbar.Collapse>

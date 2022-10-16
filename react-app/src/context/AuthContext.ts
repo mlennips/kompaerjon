@@ -5,7 +5,7 @@ export const defaultAuthContext: AuthContextProps = {
     userId: null,
     expiresAt: null,
     isAuthenticated: false,
-    login: () => { },
+    login: () => Promise.resolve(),
     logout: () => { }
 }
 
@@ -14,7 +14,7 @@ interface AuthContextProps {
     expiresAt: Date | null;
     userId: string | null;
     isAuthenticated: boolean;
-    login: (email: string, password: string) => void;
+    login: (email: string, password: string) => Promise<any>;
     logout: () => void;
 }
 

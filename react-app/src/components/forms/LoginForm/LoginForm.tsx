@@ -9,12 +9,14 @@ interface LoginFormProps { }
 
 const LoginForm: FC<LoginFormProps> = () => {
   let navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
   const handleLogin = (event: SyntheticEvent) => {
     event.preventDefault();
     var { email, password } = document.forms[0];
-    login(email.value, password.value);
+    authContext.login(email.value, password.value).then(() => {
+      navigate('/users/' + authContext.userId);
+    });
   };
 
   return <>

@@ -1,5 +1,5 @@
 import { ReactNode, FC, useState } from 'react'
-import AuthContext, { defaultAuthContext } from './AuthContext'
+import AuthContext from './AuthContext'
 import AuthService from '../services/AuthService';
 import { IAuthInfo } from '../@types/auth';
 
@@ -16,8 +16,8 @@ const AuthProvider: FC<Props> = ({ children }) => {
   }
   let [state, setState] = useState<IAuthInfo | null>(AuthService.get());
 
-  const login = (email: string, password: string) => {
-    AuthService.login(email, password).then(() => {
+  const login = async (email: string, password: string) => {
+    return AuthService.login(email, password).then(() => {
       let authInfo = AuthService.get();
       if (authInfo) {
         setState({
