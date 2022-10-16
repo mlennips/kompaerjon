@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, useParams } from 'react-router-dom';
 
 import './App.scss';
 import Layout from './components/layout/Layout/Layout';
@@ -9,7 +9,7 @@ import ContactPage from './pages/ContactPage/ContactPage';
 import HomePage from './pages/HomePage/HomePage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 
-function App() {
+function App() {    
   return (
     <AuthProvider>
       <BrowserRouter>
