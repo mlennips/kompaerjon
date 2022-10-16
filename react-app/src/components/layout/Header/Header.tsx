@@ -4,7 +4,6 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from 'react-router-bootstrap'
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
 import ComparisonDataService from '../../../features/comparison/services/ComparisonDataService';
 import { IComparison } from '../../../features/comparison/types';
@@ -30,7 +29,7 @@ const NavBar: FC<NavBarProps> = () => {
     } else {
       setComparisons([]);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, userId]);
 
   const handleLogout = () => {
     authContext.logout();

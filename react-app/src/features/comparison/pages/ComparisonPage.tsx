@@ -20,18 +20,14 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
   let comparisonId: string = params.comparisonId ?? '';
 
   useEffect(() => {
-    retrieveComparisons();
-  }, [comparisonId]);
-
-  const retrieveComparisons = () => {
     ComparisonDataService.get(comparisonId)
-      .then((response: any) => {
-        setComparisonDetail(response.data);
-      })
-      .catch((e: Error) => {
-        console.log(e);
-      });
-  };
+    .then((response: any) => {
+      setComparisonDetail(response.data);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+  }, [comparisonId, userId]);
 
   if (comparisonDetail) {
     return <Container className="ComparisonPage" data-testid="ComparisonPage">

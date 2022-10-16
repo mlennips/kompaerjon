@@ -8,7 +8,7 @@ let authInfo: IAuthInfo = authInfoDefault;
 const init = () => {
   let authFromLocalStorage = LocalStorageService.get('auth'); 
   if (authFromLocalStorage) {
-    authInfo = <IAuthInfo>JSON.parse(authFromLocalStorage);
+    authInfo = JSON.parse(authFromLocalStorage) as IAuthInfo;
     if (authInfo && authInfo.expiresAt) {
       authInfo.expiresAt = new Date(authInfo.expiresAt);
     }
