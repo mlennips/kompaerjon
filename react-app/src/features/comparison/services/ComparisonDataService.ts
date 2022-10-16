@@ -1,20 +1,20 @@
 import http from "../../../utils/helpers/http-common";
-import { IComparison } from "../types";
-import './_mocks_/comparison';
+import { IComparison, IComparisonDetail } from "../types";
+// import './_mocks_/comparison';
 
 const getAll = (userId: string) => {
-  return http.get<IComparison[]>(`/users/${userId}/comparisons`);
+  return http.get<IComparison[]>(`/Comparisons?userId=${userId}`);
 };
 
-const get = (userId: string, id: string) => {
-  return http.get<IComparison>(`/users/${userId}/comparisons/${id}`);
+const get = (id: string) => {
+  return http.get<IComparisonDetail>(`/Comparisons/${id}`);
 };
 
 const create = (userId: string, data: IComparison) => {
   return http.post<IComparison>(`/users/${userId}/comparisons`, data);
 };
 
-const update = (userId: string, id: string, data: IComparison) => {
+const update = (userId: string, id: string, data: any) => {
   return http.put<any>(`/users/${userId}/comparisons/${id}`, data);
 };
 

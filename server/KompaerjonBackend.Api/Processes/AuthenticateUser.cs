@@ -29,6 +29,7 @@ namespace KompaerjonBackend.Api.Processes
         public string UserEmail { get; private set; }
         public JwtSecurityToken Token { get; private set; }
         public string EncodedToken { get; private set; }
+        public DateTime TokenExpiresAt { get; private set; }
 
         public async Task StartAsync(string email, string password)
         {
@@ -48,6 +49,7 @@ namespace KompaerjonBackend.Api.Processes
                 this.UserEmail = user.Email;
                 this.Token = token;
                 this.EncodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+                this.TokenExpiresAt = token.ValidTo;
             }
         }
     }

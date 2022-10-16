@@ -1,5 +1,6 @@
 ﻿using System;
 using KompaerjonBackend.Business.Models;
+using KompaerjonBackend.Business.Services.Models;
 using Microsoft.EntityFrameworkCore;
 using static KompaerjonBackend.Business.Core.Exceptions;
 
@@ -21,7 +22,7 @@ namespace KompaerjonBackend.Business.Services
             {
                 throw new NotFoundException<User>(userId);
             }
-            var comparison = Comparison.Create(Guid.NewGuid(), user, name, description, searchScheme);
+            var comparison = Comparison.Create(Guid.NewGuid(), userId, name, description, searchScheme);
             await this.dataContext.Comparisons.AddAsync(comparison);
             await this.dataContext.SaveChangesAsync();
             return comparison;
@@ -50,21 +51,31 @@ namespace KompaerjonBackend.Business.Services
             return entry;
         }
 
-        public async Task<Comparison> GetAsync(Guid id)
+        public async Task<ComparisonDetailDto> GetAsync(Guid id)
         {
-            var comparison = await this.dataContext.Comparisons.FindAsync(id);
+            var comparison = await this.dataContext.Comparisons.Where(x => x.Id == id)
+                .Include("Shares")
+                .Include("Attributes")
+                .Include("Entries")
+                .FirstOrDefaultAsync();
+
             if (comparison == null)
             {
                 throw new NotFoundException<Comparison>(id);
             }
-            return comparison;
+            return ComparisonDetailDto.From(comparison, comparison.Attributes.ToArray(), comparison.Entries.ToArray(), comparison.Shares.ToArray());
         }
 
-        public async Task<Comparison[]> GetForUserAsync(Guid userId)
+        public async Task<ComparisonDto[]> GetForUserAsync(Guid userId)
         {
-            return await this.dataContext.Comparisons
-                .Where(x => x.User.Id == userId)
-                .ToArrayAsync();
+            var queryResult = await this.dataContext.Comparisons.Where(x => x.User.Id == userId)
+                .Select(x => new {
+                    Comparison = x,
+                    HasShares = x.Shares.Any()
+                })
+                .ToListAsync();
+
+            return queryResult.Select(x => ComparisonDto.From(x.Comparison, x.HasShares)).ToArray();
         }
     }
 }

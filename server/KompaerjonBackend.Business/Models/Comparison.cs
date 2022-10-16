@@ -8,6 +8,8 @@ namespace KompaerjonBackend.Business.Models
         [Key]
         public Guid Id { get; set; }
 
+        public Guid UserId { get; set; }
+
         public User User { get; set; }
 
         public DateTime Created { get; set; }
@@ -28,12 +30,12 @@ namespace KompaerjonBackend.Business.Models
 
         public virtual ICollection<ComparisonShare> Shares { get; set; }
 
-        static internal Comparison Create(Guid id, User user, string name, string description, string searchScheme)
+        static internal Comparison Create(Guid id, Guid userId, string name, string description, string searchScheme)
         {
             return new Comparison()
             {
                 Id = id,
-                User = user,
+                UserId = userId,
                 Created = DateTime.UtcNow,
                 Name = name,
                 Description = description,
