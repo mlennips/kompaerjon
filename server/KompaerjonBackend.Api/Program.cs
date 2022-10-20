@@ -20,6 +20,7 @@ builder.Services.AddCors();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<ComparisonService>();
+builder.Services.AddScoped<ComparisonAnalysisService>();
 
 var app = builder.Build();
 

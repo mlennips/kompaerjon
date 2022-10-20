@@ -11,3 +11,7 @@ export interface IComparisonDetail extends IComparison {
     entries: any[],
     shares: any[]
 }
+
+export interface IComparisonAnalysis {
+    id: string;
+}

@@ -1,5 +1,5 @@
 import http from "../../../utils/helpers/http-common";
-import { IComparison, IComparisonDetail } from "../types";
+import { IComparison, IComparisonAnalysis, IComparisonDetail } from "../types";
 // import './_mocks_/comparison';
 
 const getAll = (userId: string) => {
@@ -26,9 +26,15 @@ const removeAll = (userId: string) => {
   return http.delete<any>(`/users/${userId}/comparisons`);
 };
 
+
+const getAnalysis = (id: string) => {
+  return http.get<IComparisonAnalysis>(`/Comparisons/${id}/analysis`);
+};
+
 const ComparisonDataService = {
   getAll,
   get,
+  getAnalysis,
   create,
   update,
   remove,

@@ -1,17 +1,24 @@
 import React, { useEffect, useState, FC } from 'react';
-import { useParams } from "react-router-dom";
 import './AnalyseMatrix.scss';
 import { Spinner, Stack } from 'react-bootstrap';
+import ComparisonDataService from '../../services/ComparisonDataService';
 
 interface AnalyseMatrixProps {
-  urls: string[];
+  comparisonId: string;
 }
 
 const AnalyseMatrix: FC<AnalyseMatrixProps> = (props: AnalyseMatrixProps) => {
-  let params = useParams();
-  let userId: string = params.userId ?? '';
+  const [analysis, setAnalysis] = useState<any>(null);
 
-  const [analyseResults, setAnalyseResults] = useState<any>(null);
+  useEffect(() => {
+    ComparisonDataService.getAnalysis(props.comparisonId)
+    .then((response: any) => {
+      setAnalysis(response.data);
+    })
+    .catch((e: Error) => {
+      console.log(e);
+    });
+  }, [props.comparisonId]);
 
   useEffect(() => {
     retrieveAnalyseResults();
@@ -21,7 +28,7 @@ const AnalyseMatrix: FC<AnalyseMatrixProps> = (props: AnalyseMatrixProps) => {
 
   };
 
-  if (analyseResults) {
+  if (analysis) {
     return <div data-testid="AnalyseMatrix">
       Done
     </div>

@@ -50,7 +50,7 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
         <h4>Ergebnis</h4>
       </Col>
       <Col>
-        <AnalyseMatrix urls={[]} />
+        <AnalyseMatrix comparisonId={comparisonId} />
       </Col>
     </Row>
   </Container>

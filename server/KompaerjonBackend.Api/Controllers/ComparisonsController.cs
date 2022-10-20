@@ -18,10 +18,12 @@ namespace KompaerjonApi.Controllers
     public class ComparisonsController : ControllerBase
     {
         private readonly ComparisonService comparisonService;
+        private readonly ComparisonAnalysisService comparisonAnalysisService;
 
-        public ComparisonsController(ComparisonService comparisonService)
+        public ComparisonsController(ComparisonService comparisonService, ComparisonAnalysisService comparisonAnalysisService)
         {
             this.comparisonService = comparisonService;
+            this.comparisonAnalysisService = comparisonAnalysisService;
         }
 
         // GET: api/Comparisons
@@ -42,6 +44,14 @@ namespace KompaerjonApi.Controllers
         {
             var comparison = await this.comparisonService.GetAsync(id);
             return comparison;
+        }
+
+        // GET: api/Comparisons/5/result
+        [HttpGet("{id}/analysis")]
+        public async Task<ActionResult<ComparisonAnalysisDto>> GetComparisonResult(Guid id)
+        {
+            var comparisonAnalysis = await this.comparisonAnalysisService.BuildAsync(id);
+            return comparisonAnalysis;
         }
 
         // PUT: api/Comparisons/5

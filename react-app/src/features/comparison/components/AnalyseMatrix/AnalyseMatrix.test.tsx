@@ -5,7 +5,7 @@ import AnalyseMatrix from './AnalyseMatrix';
 
 describe('<AnalyseMatrix />', () => {
   test('it should mount', () => {
-    render(<AnalyseMatrix urls={[]}/>);
+    render(<AnalyseMatrix comparisonId='1' />);
     
     const comparisonList = screen.getByTestId('AnalyseMatrix');
 

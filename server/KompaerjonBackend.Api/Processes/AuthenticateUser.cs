@@ -54,4 +54,3 @@ namespace KompaerjonBackend.Api.Processes
         }
     }
 }
-
