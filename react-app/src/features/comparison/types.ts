@@ -8,10 +8,21 @@ export interface IComparison {
 
 export interface IComparisonDetail extends IComparison {
     attributes: any[];
-    entries: any[],
+    entries: IComparisonEntry[],
     shares: any[]
 }
 
 export interface IComparisonAnalysis {
     id: string;
+}
+
+export interface IComparisonEntry {
+    id: string;
+    createx: Date;
+    updated: Date;
+    name: string;
+    url: string;
+    price: number;
+    ratingPoints: number;
+    comment: string;
 }

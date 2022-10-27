@@ -41,7 +41,7 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
       <Col sm={12}><h4>Einträge</h4></Col>
       {comparisonDetail.entries.map((entry, key) => (
         <Col md={3} key={key}>
-          {entryCard(key, entry.name, entry.url)}
+          {entryCard(entry.id, key, entry.name, entry.url)}
         </Col>
       ))}
     </Row>
@@ -58,13 +58,13 @@ const ComparisonPage: FC<ComparisonPageProps> = () => {
     return <>...</>
   }
 
-  function entryCard(key: number, name: string, url: string) {
+  function entryCard(id: string, key: number, name: string, url: string) {
     return <Card>
       <Card.Body>
         <Card.Title>#{key}</Card.Title>
         <Card.Text>{name}</Card.Text>
         <ButtonGroup aria-label="Eintrag Aktionen">
-          <Button variant="light" onClick={() => navigate(`/users/${userId}/comparisons/${comparisonId}/entries/0`)}><BsPencilSquare /></Button>
+          <Button variant="light" onClick={() => navigate(`/users/${userId}/comparisons/${comparisonId}/entries/${id}`)}><BsPencilSquare /></Button>
           <Button variant="light" onClick={() => openInNewTab(url)}><BsBoxArrowRight /></Button>
           <Button variant="light" onClick={() => { }}><BsTrash /></Button>
         </ButtonGroup>
